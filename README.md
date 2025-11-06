@@ -18,3 +18,8 @@ Formatting codes and configurations
 ## Screenshots
 PLACEHOLDER
 
+
+---
+## Third-Party Content
+Font - BigBlueTerminal - https://github.com/ryanoasis/nerd-fonts/tree/master/patched-fonts/BigBlueTerminal
+Text Effects - pmtext - https://github.com/ChillyCider/pmtext/tree/master
