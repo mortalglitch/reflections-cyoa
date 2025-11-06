@@ -1,11 +1,12 @@
 # Instruction opcodes
-_CHAR    = 0
+_CHAR = 0
 _NEWLINE = 1
-_FONT    = 2
-_COLOR   = 3
-_SHAKE   = 4
-_WAIT    = 5
-_CUSTOM  = 6
+_FONT = 2
+_COLOR = 3
+_SHAKE = 4
+_WAIT = 5
+_CUSTOM = 6
+
 
 class Graph:
     def __init__(self, default_font):
@@ -13,18 +14,18 @@ class Graph:
         self.default_font = default_font
 
     def string(self, s):
-        '''Adds a string of characters to the passage.'''
+        """Adds a string of characters to the passage."""
         for c in s:
             self.instructions.append((_CHAR, c))
 
     def draw(self, dst, x, y):
-        '''Draw the passage.'''
+        """Draw the passage."""
         cursor_x = x
         cursor_y = y
         font = self.default_font
         color = (255, 255, 255)
         shake = None
-        char_index = 0 # For shake effects
+        char_index = 0  # For shake effects
 
         for op in self.instructions:
             if op[0] == _CHAR:
@@ -37,7 +38,7 @@ class Graph:
                     off_x, off_y = shake(char_index)
 
                 # Draw it
-                font.draw_glyph(dst, cursor_x+off_x, cursor_y+off_y, color, ch)
+                font.draw_glyph(dst, cursor_x + off_x, cursor_y + off_y, color, ch)
 
                 # Advance the cursor
                 cursor_x += font.get_glyph_width(ch)
@@ -53,60 +54,62 @@ class Graph:
                 shake = op[1]
 
     def newline(self):
-        '''Add a newline to the passage.'''
+        """Add a newline to the passage."""
         self.instructions.append((_NEWLINE,))
 
     def font(self, font):
-        '''Use a new font for this part of the passage.'''
+        """Use a new font for this part of the passage."""
         self.instructions.append((_FONT, font))
 
     def color(self, r, g, b):
-        '''Use a new color for this part of the passage.'''
+        """Use a new color for this part of the passage."""
         self.instructions.append((_COLOR, r, g, b))
 
     def shake(self, func):
-        '''Use a shake function for this part of the passage.'''
+        """Use a shake function for this part of the passage."""
         self.instructions.append((_SHAKE, func))
 
+
 class Typewriter:
-    '''Wraps around a Graph, throttling character output.'''
+    """Wraps around a Graph, throttling character output."""
+
     def __init__(self, view):
         self.view = view
         self.queue = []
 
     def slow_string(self, delay, s):
-        '''Queue up a slow string of characters.'''
+        """Queue up a slow string of characters."""
         for c in s:
             self.wait(delay)
             self.string(c)
 
     def string(self, s):
-        '''Queue up a string of characters.'''
+        """Queue up a string of characters."""
         for c in s:
             self.queue.append((_CHAR, c))
 
     def draw(self, dst, x, y):
-        '''Draw the graph somewhere.'''
+        """Draw the graph somewhere."""
         self.view.draw(dst, x, y)
 
     def newline(self):
-        '''Queue up a newline.'''
+        """Queue up a newline."""
         self.queue.append((_NEWLINE,))
 
     def font(self, surface_list):
-        '''Queue up a font change.'''
+        """Queue up a font change."""
         self.queue.append((_FONT, surface_list))
 
     def color(self, r, g, b):
-        '''Queue up a color change.'''
+        """Queue up a color change."""
         self.queue.append((_COLOR, r, g, b))
 
     def shake(self, func):
-        '''Queue up a shake-function change.'''
+        """Queue up a shake-function change."""
         self.queue.append((_SHAKE, func))
 
     def pulse(self):
-        '''Executes the queue up to the first printed character.'''
+        """Executes the queue up to the first printed character."""
         while self.queue:
             op = self.queue.pop(0)
 
@@ -127,15 +130,16 @@ class Typewriter:
                 op[1]()
 
     def flush(self):
-        '''Flush the whole queue.'''
+        """Flush the whole queue."""
         while self.queue:
             self.pulse()
 
     def wait(self, n):
-        '''Queue up a delay.'''
-        for _ in xrange(n):
+        """Queue up a delay."""
+        # old for _ in xrange(n):
+        for _ in range(n):
             self.queue.append((_WAIT,))
 
     def custom(self, func):
-        '''Queue up a custom function call.'''
+        """Queue up a custom function call."""
         self.queue.append((_CUSTOM, func))

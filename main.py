@@ -20,31 +20,32 @@ def main():
         "./fonts/BigBlueTerminal/BigBlueTermPlusNerdFontMono-Regular.ttf", 12
     )
     p = pmtext.para.Graph(font)
+    t = pmtext.para.Typewriter(p)
 
-    p.color(0, 0, 0)
-    p.string("Hello ")
-    p.color(255, 0, 0)
-    p.string("world")
-    p.color(0, 0, 0)
-    p.string(".")
+    t.color(255, 255, 255)
+    t.string("Hello ")
+    t.newline()
+    t.wait(10)
+    t.color(255, 0, 0)
+    t.string("world")
+    t.color(255, 255, 255)
+    t.string(".")
 
     while True:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 return
         # Draw a white background
-        screen.fill("white")
+        screen.fill("black")
 
-        # Draw a paragraph
-        p.draw(screen, 10, 10)
+        # Draw Typewriter
+        t.pulse()
+        t.draw(screen, 10, 10)
 
         # Update the window
         pygame.display.flip()
 
-        # Wait a bit
-        # pygame.time.wait(2000)
-
-        print("Hello from reflections-cyoa!")
+        # print("Hello from reflections-cyoa!")
         dt = clock.tick(60) / 1000
 
 
