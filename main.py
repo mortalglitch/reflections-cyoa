@@ -4,9 +4,11 @@ import pmtext.util_pygame
 import random
 import math
 
-from config.default_config import SCREEN_HEIGHT, SCREEN_WIDTH
+from src.button import Button
+from config.default_config import *
 
 game_frame = 0
+objects = []
 
 
 def main():
@@ -15,6 +17,7 @@ def main():
     pygame.init()
     screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
     pygame.font.init()
+    pygFont = pygame.font.Font(FONT, 25)
 
     # Setting up clock and delta
     clock = pygame.time.Clock()
@@ -48,6 +51,21 @@ def main():
     jit.shake(None)
     jit.string("!! Back to your regular scheduled programming.")
 
+    ## Button Testing
+    customButton = Button(
+        440,
+        600,
+        400,
+        100,
+        pygFont,
+        screen,
+        objects,
+        False,
+        "Button for choice 1",
+        myFunction,
+        "data_choice",
+    )
+
     while True:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -60,6 +78,8 @@ def main():
         t.draw(screen, 10, 10)
 
         jit.draw(screen, 10, 75)
+        for object in objects:
+            object.process()
 
         # Update the window
         pygame.display.flip()
@@ -81,6 +101,10 @@ def singsong(char_index):
     x = math.cos(float(game_frame + char_index) / 2)
     y = math.sin(float(game_frame + char_index) / 2)
     return x, y
+
+
+def myFunction(current_choice):
+    print(f"Choice clicked: ", current_choice)
 
 
 if __name__ == "__main__":
