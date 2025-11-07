@@ -1,0 +1,30 @@
+[%S Beginning %]
+You wake up in an area unknown to you.
+Looking around to realize it is a [# c-255,0,0 #][# shake #]dark cave[# reset #]
+Looking down at the floor you notice what appears to be a torch and a flashlight.
+[%C Grab Torch :: Torch %][%C Grab Flashlight :: Flashlight %]
+
+[%S Torch %]
+You grab the torch and underneath was a flint and steel. You hold on to both for now. There is a [# c-0,255,0 #][# shake #]strong pungent smell[# reset #] in the air not just from the torch.
+You feel you shouldn't stay here long.
+[%C Light Torch :: Try to light %][%C Explore without lighting :: Explore without light %]
+
+[%S Flashlight %]
+You look over the flashlight and it seems to be in decent condition. It does look a little strange though. This flashlight has both a sliding switch and a button.
+There is a [# c-0,255,0 #][# shake #]strong pungent smell[# reset #] in the air.
+
+[%S Try to light %]
+Despite the lack of experience with a flint and steel you were able to successfully light the torch. Unfortunately you realize you are standing in the room with a [# c-255,0,0 #][# shake #]Laparell[# reset #] which can now see you. The [# c-255,0,0 #][# shake #]Laparell[# reset #] isn't too fond of what it sees and quickly ends your life.
+[%e Bad Ending 1 %]
+
+[%S Explore without light %]
+You decide to explore without lighting the torch due to the smell. You feel your way around until you discover an opening with a breeze. You step through the openning only to find there is no ground. You fall to your demise.
+[%e Bad Ending 2 %]
+
+[%S Push button %]
+You try and push the button on the flashlight but find it's quite hard to push. You end up pushing very hard and eventual hear a click but no light. After a second or two an alarm begins sounding from the flashlight. Amongst the loud sounds of the siren you hear a [# c-165,42,42 #][# shake #]low growl[# reset #] that sounds almost tiger like. Within an instant your body hits the floor. You are no longer amongst the living.
+[%e Bad Ending 3 %]
+
+[%S Flip switch %]
+The switch comes with a satisfying click. Unfortunately this will be the last sound you hear as the new light shines showing you are not alone. A massive fur covered creature stands in the opposite corner of the room. If you are not mistaken this is a [# c-255,0,0 #][# shake #]Laparell[# reset #]. As quickly as the switch clicked the creature sprang toward you. You last vision was slime dripping from fangs longer than your hand.
+[%e Bad Ending 4 %]

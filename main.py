@@ -32,7 +32,9 @@ def main():
     t.newline()
     t.wait(50)
     t.color(255, 0, 0)
+    t.shake(jitter)
     t.string("world")
+    t.shake(None)
     t.color(255, 255, 255)
     t.string(".")
 
