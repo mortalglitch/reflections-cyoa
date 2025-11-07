@@ -5,7 +5,8 @@ import random
 import math
 
 from src.button import Button
-from config.default_config import *
+from src.fancy_text import FancyText
+from config.default_config import SCREEN_HEIGHT, SCREEN_WIDTH, FONT, STORY
 
 game_frame = 0
 objects = []
@@ -23,33 +24,16 @@ def main():
     clock = pygame.time.Clock()
     dt = 0
 
-    # pmtext init
-    font = pmtext.util_pygame.TTF(
-        "./fonts/BigBlueTerminal/BigBlueTermPlusNerdFontMono-Regular.ttf", 25
+    test_section = []
+    test_section.append("You wake up in an area unknown to you.")
+    test_section.append(
+        "Looking around to realize it is a [#c-255,0,0#] [#shake#] dark cave [#reset#]"
     )
-    p = pmtext.para.Graph(font)
-    t = pmtext.para.Typewriter(p)
+    test_section.append(
+        "Looking down at the floor you notice what appears to [#newline#] be a torch and a flashlight."
+    )
 
-    t.color(255, 255, 255)
-    t.string("Hello ")
-    t.newline()
-    t.wait(50)
-    t.color(255, 0, 0)
-    t.shake(jitter)
-    t.string("world")
-    t.shake(None)
-    t.color(255, 255, 255)
-    t.string(".")
-
-    jit = pmtext.para.Graph(font)
-    jit.shake(jitter)
-    jit.string("Hello... ")
-
-    jit.shake(singsong)
-    jit.string("World... ")
-
-    jit.shake(None)
-    jit.string("!! Back to your regular scheduled programming.")
+    newFancyText = FancyText(FONT, screen, test_section, objects)
 
     ## Button Testing
     customButton = Button(
@@ -73,11 +57,6 @@ def main():
         # Draw a white background
         screen.fill("black")
 
-        # Draw Typewriter
-        t.pulse()
-        t.draw(screen, 10, 10)
-
-        jit.draw(screen, 10, 75)
         for object in objects:
             object.process()
 
