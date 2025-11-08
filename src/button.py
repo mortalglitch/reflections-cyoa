@@ -13,6 +13,7 @@ class Button:
         font,
         screen,
         objects,
+        current_text,
         onePress=False,
         buttonText="Button",
         onclickFunction=None,
@@ -27,6 +28,7 @@ class Button:
         self.onePress = onePress
         self.screen = screen
         self.objects = objects
+        self.current_text = current_text
 
         self.fillColors = {
             "normal": "#ffffff",
@@ -53,10 +55,10 @@ class Button:
                 self.buttonSurface.fill(self.fillColors["pressed"])
 
                 if self.onePress:
-                    self.onclickFunction(self.dataChoice)
+                    self.onclickFunction(self.dataChoice, self.current_text)
 
                 elif not self.alreadyPressed:
-                    self.onclickFunction(self.dataChoice)
+                    self.onclickFunction(self.dataChoice, self.current_text)
                     self.alreadyPressed = True
 
             else:

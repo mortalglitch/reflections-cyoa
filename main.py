@@ -11,10 +11,17 @@ from config.default_config import SCREEN_HEIGHT, SCREEN_WIDTH, FONT, STORY
 
 game_frame = 0
 objects = []
+current_buttons = []
+change_flag = True
+current_section = 0
 
 
 def main():
     global game_frame
+    global objects
+    global current_buttons
+    global change_flag
+    global current_section
     # pygame init
     pygame.init()
     screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
@@ -25,44 +32,31 @@ def main():
     clock = pygame.time.Clock()
     dt = 0
 
-    test_section = []
-    test_section.append("You wake up in an area unknown to you.")
-    test_section.append(
-        "Looking around to realize it is a [#c-255,0,0#] [#shake#] dark cave [#reset#]"
-    )
-    test_section.append(
-        "Staring down at the floor you notice what appears to [#newline#] be a torch and a flashlight."
-    )
-
     # NOTE Line length greater than 70 should newline
 
     # newFancyText = FancyText(FONT, screen, test_section, objects)
 
     story_sections = story_parser(STORY)
 
-    newFancyText = FancyText(FONT, screen, story_sections[0].text_block, objects)
-    ## Button Testing
-    customButton = Button(
-        440,
-        600,
-        400,
-        100,
-        pygFont,
-        screen,
-        objects,
-        False,
-        "Button for choice 1",
-        myFunction,
-        "data_choice",
-    )
-
     while True:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 return
-        # Draw a white background
+        # Draw a black background
         screen.fill("black")
-
+        if change_flag:
+            newFancyText = FancyText(
+                FONT, screen, story_sections[current_section].text_block, objects
+            )
+            generate_buttons(
+                story_sections[current_section].choices,
+                current_buttons,
+                objects,
+                pygFont,
+                screen,
+                newFancyText,
+            )
+            change_flag = False
         for object in objects:
             object.process()
 
@@ -70,7 +64,6 @@ def main():
         pygame.display.flip()
         game_frame += 1
 
-        # print("Hello from reflections-cyoa!")
         dt = clock.tick(60) / 1000
 
 
@@ -88,8 +81,32 @@ def singsong(char_index):
     return x, y
 
 
-def myFunction(current_choice):
+def progess_story(current_choice, current_text):
     print(f"Choice clicked: ", current_choice)
+    objects.remove(current_text)
+
+
+def generate_buttons(choices, current_buttons, objects, pygFont, screen, newFancyText):
+    if current_buttons != None:
+        for button in current_buttons:
+            objects.remove(button)
+    offset = -300
+    for choice in choices:
+        newButton = Button(
+            SCREEN_WIDTH / len(choices) + offset,
+            SCREEN_HEIGHT - 110,
+            300,
+            100,
+            pygFont,
+            screen,
+            objects,
+            newFancyText,
+            False,
+            choice[0],
+            progess_story,
+            choice[1],
+        )
+        offset += 350
 
 
 if __name__ == "__main__":
