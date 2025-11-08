@@ -12,8 +12,12 @@ from config.default_config import SCREEN_HEIGHT, SCREEN_WIDTH, FONT, STORY
 game_frame = 0
 objects = []
 current_buttons = []
-change_flag = True
 current_section = 0
+story_sections = []
+newFancyText = ""
+screen = ""
+pygFont = ""
+clicked = True
 
 
 def main():
@@ -22,6 +26,11 @@ def main():
     global current_buttons
     global change_flag
     global current_section
+    global story_sections
+    global newFancyText
+    global screen
+    global pygFont
+
     # pygame init
     pygame.init()
     screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
@@ -37,26 +46,23 @@ def main():
     # newFancyText = FancyText(FONT, screen, test_section, objects)
 
     story_sections = story_parser(STORY)
-
+    newFancyText = FancyText(
+        FONT, screen, story_sections[current_section].text_block, objects
+    )
+    generate_buttons(
+        story_sections[current_section].choices,
+        current_buttons,
+        objects,
+        pygFont,
+        screen,
+        newFancyText,
+    )
     while True:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 return
         # Draw a black background
         screen.fill("black")
-        if change_flag:
-            newFancyText = FancyText(
-                FONT, screen, story_sections[current_section].text_block, objects
-            )
-            generate_buttons(
-                story_sections[current_section].choices,
-                current_buttons,
-                objects,
-                pygFont,
-                screen,
-                newFancyText,
-            )
-            change_flag = False
         for object in objects:
             object.process()
 
@@ -82,14 +88,52 @@ def singsong(char_index):
 
 
 def progess_story(current_choice, current_text):
+    global current_section
+    global change_flag
+    global story_sections
+    global screen
+    global objects
+    global pygFont
+    global clicked
+
+    clicked = True
+
     print(f"Choice clicked: ", current_choice)
-    objects.remove(current_text)
+    if current_text != "":
+        if current_text in objects:
+            objects.remove(current_text)
+
+    # Find target index (potential optimization point could add an inherint index to make the sections into a dictionary or something)
+    new_index = 0
+    for index, item in enumerate(story_sections):
+        if item.title == current_choice:
+            print(f"Title matched {current_choice}")
+            new_index = index
+    current_section = new_index
+    newFancyText = FancyText(
+        FONT, screen, story_sections[current_section].text_block, objects
+    )
+    if clicked:
+        generate_buttons(
+            story_sections[current_section].choices,
+            current_buttons,
+            objects,
+            pygFont,
+            screen,
+            newFancyText,
+        )
+        clicked = False
 
 
 def generate_buttons(choices, current_buttons, objects, pygFont, screen, newFancyText):
-    if current_buttons != None:
+    global clicked
+    if current_buttons != None and clicked:
         for button in current_buttons:
+            print("DEBUG")
+            print(f"Current Checked Button: {button}")
+            print(f"Objects currently : {objects}")
             objects.remove(button)
+            current_buttons.remove(button)
     offset = -300
     for choice in choices:
         newButton = Button(
@@ -101,12 +145,13 @@ def generate_buttons(choices, current_buttons, objects, pygFont, screen, newFanc
             screen,
             objects,
             newFancyText,
-            False,
+            True,
             choice[0],
             progess_story,
             choice[1],
         )
         offset += 350
+        current_buttons.append(newButton)
 
 
 if __name__ == "__main__":

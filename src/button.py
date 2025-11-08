@@ -41,28 +41,31 @@ class Button:
 
         self.buttonSurf = font.render(buttonText, True, (20, 20, 20))
 
-        self.alreadyPress = False
+        self.alreadyPressed = False
 
         objects.append(self)
+
+    def __repr__(self):
+        return f"Button Object {self.current_text} with dataChoice {self.dataChoice}"
 
     def process(self):
         mousePos = pygame.mouse.get_pos()
         self.buttonSurface.fill(self.fillColors["normal"])
         if self.buttonRect.collidepoint(mousePos):
             self.buttonSurface.fill(self.fillColors["hover"])
+            for event in pygame.event.get():
+                if pygame.mouse.get_pressed(num_buttons=3)[0]:
+                    self.buttonSurface.fill(self.fillColors["pressed"])
 
-            if pygame.mouse.get_pressed(num_buttons=3)[0]:
-                self.buttonSurface.fill(self.fillColors["pressed"])
+                    if self.onePress:
+                        self.onclickFunction(self.dataChoice, self.current_text)
 
-                if self.onePress:
-                    self.onclickFunction(self.dataChoice, self.current_text)
+                    elif not self.alreadyPressed:
+                        self.onclickFunction(self.dataChoice, self.current_text)
+                        self.alreadyPressed = True
 
-                elif not self.alreadyPressed:
-                    self.onclickFunction(self.dataChoice, self.current_text)
-                    self.alreadyPressed = True
-
-            else:
-                self.alreadyPressed = False
+                else:
+                    self.alreadyPressed = False
 
         self.buttonSurface.blit(
             self.buttonSurf,
