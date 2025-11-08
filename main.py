@@ -1,8 +1,7 @@
 import pygame
-import pmtext.para
-import pmtext.util_pygame
 import random
 import math
+import sys
 
 from src.button import Button
 from src.fancy_text import FancyText
@@ -42,12 +41,17 @@ def main():
     dt = 0
 
     # NOTE Line length greater than 70 should newline
+    # NOTE: max button length 18
 
     # newFancyText = FancyText(FONT, screen, test_section, objects)
 
     story_sections = story_parser(STORY)
     newFancyText = FancyText(
-        FONT, screen, story_sections[current_section].text_block, objects
+        FONT,
+        screen,
+        story_sections[current_section].text_block,
+        objects,
+        current_section,
     )
     generate_buttons(
         story_sections[current_section].choices,
@@ -64,7 +68,7 @@ def main():
         # Draw a black background
         screen.fill("black")
         for object in objects:
-            object.process()
+            object.process(current_section, objects)
 
         # Update the window
         pygame.display.flip()
@@ -107,31 +111,54 @@ def progess_story(current_choice, current_text):
     new_index = 0
     for index, item in enumerate(story_sections):
         if item.title == current_choice:
-            print(f"Title matched {current_choice}")
+            # print(f"Title matched {current_choice}")
             new_index = index
     current_section = new_index
     newFancyText = FancyText(
-        FONT, screen, story_sections[current_section].text_block, objects
+        FONT,
+        screen,
+        story_sections[current_section].text_block,
+        objects,
+        current_section,
     )
     if clicked:
-        generate_buttons(
-            story_sections[current_section].choices,
-            current_buttons,
-            objects,
-            pygFont,
-            screen,
-            newFancyText,
-        )
+        if story_sections[current_section].is_end:
+            if current_buttons is not None and clicked:
+                for button in current_buttons:
+                    if button in objects:
+                        objects.remove(button)
+                    current_buttons.remove(button)
+            newButton = Button(
+                SCREEN_WIDTH / 2 - 150,
+                SCREEN_HEIGHT - 110,
+                300,
+                100,
+                pygFont,
+                screen,
+                objects,
+                newFancyText,
+                current_section,
+                True,
+                "End",
+                close_game,
+                "End",
+            )
+        else:
+            generate_buttons(
+                story_sections[current_section].choices,
+                current_buttons,
+                objects,
+                pygFont,
+                screen,
+                newFancyText,
+            )
         clicked = False
 
 
 def generate_buttons(choices, current_buttons, objects, pygFont, screen, newFancyText):
     global clicked
-    if current_buttons != None and clicked:
+    if current_buttons is not None and clicked:
         for button in current_buttons:
-            print("DEBUG")
-            print(f"Current Checked Button: {button}")
-            print(f"Objects currently : {objects}")
             objects.remove(button)
             current_buttons.remove(button)
     offset = -300
@@ -145,6 +172,7 @@ def generate_buttons(choices, current_buttons, objects, pygFont, screen, newFanc
             screen,
             objects,
             newFancyText,
+            current_section,
             True,
             choice[0],
             progess_story,
@@ -152,6 +180,13 @@ def generate_buttons(choices, current_buttons, objects, pygFont, screen, newFanc
         )
         offset += 350
         current_buttons.append(newButton)
+
+
+def close_game(x, y):
+    # X and Y serve no purpose aside from receiving the default call from the button. This will need to be refactored out.
+    pygame.display.quit()
+    pygame.quit()
+    sys.exit()
 
 
 if __name__ == "__main__":

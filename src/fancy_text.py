@@ -6,10 +6,11 @@ import random
 
 
 class FancyText:
-    def __init__(self, font, screen, textSection, objects):
+    def __init__(self, font, screen, textSection, objects, current_index):
         self.font = font
         self.screen = screen
         self.textSection = textSection
+        self.current_index = current_index
 
         # pmtext init
         pmfont = pmtext.util_pygame.TTF(font, 25)
@@ -21,7 +22,11 @@ class FancyText:
         # Loop over textSection
         for line in textSection:
             lineSplit = line.split()
+            line_length = 0
             for word in lineSplit:
+                if line_length + len(word) > 70:
+                    t.newline()
+                    line_length = 0
                 if word.startswith("[#c"):
                     new_color_raw = word[4:-2]
                     new_color_split = new_color_raw.split(",")
@@ -39,32 +44,24 @@ class FancyText:
                     t.newline()
                 else:
                     t.string(word + " ")
+                    line_length += len(word) + 1
+
             t.newline()
 
-        # parse through each line
-        # look through each line and pull out specialized commands
-
-        t.color(255, 255, 255)
-        t.string("Hello ")
-        t.newline()
-        t.wait(50)
-        t.color(255, 0, 0)
-        t.shake(jitter)
-        t.string("world")
-        t.shake(None)
-        t.color(255, 255, 255)
-        t.string(".")
         self.processedText = t
         objects.append(self)
 
-    def process(self):
+    def process(self, current_index, objects):
         # Draw Typewriter
-        self.processedText.pulse()
-        self.processedText.draw(self.screen, 10, 10)
+        if self.current_index != current_index:
+            objects.remove(self)
+        else:
+            self.processedText.pulse()
+            self.processedText.draw(self.screen, 10, 10)
 
 
 def jitter(char_index):
-    """Angry text motion."""
+    """Shaky text motion."""
     x = random.randint(0, 1)
     y = random.randint(0, 1)
     return x, y
