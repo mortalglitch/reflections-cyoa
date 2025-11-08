@@ -12,6 +12,7 @@ You feel you shouldn't stay here long.
 [%S Flashlight %]
 You look over the flashlight and it seems to be in decent condition. It does look a little strange though. This flashlight has both a sliding switch and a button.
 There is a [#c-0,255,0#] [#shake#] strong pungent smell [#reset#] in the air.
+[%C Push button :: Push button %][%C Flip switch :: Flip switch %]
 
 [%S Try to light %]
 Despite the lack of experience with a flint and steel you were able to successfully light the torch. Unfortunately you realize you are standing in the room with a [#c-255,0,0#] [#shake#] Laparell [#reset#] which can now see you. The [#c-255,0,0#] [#shake#] Laparell [#reset#] isn't too fond of what it sees and quickly ends your life.

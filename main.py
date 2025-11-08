@@ -6,6 +6,7 @@ import math
 
 from src.button import Button
 from src.fancy_text import FancyText
+from src.story_parser import story_parser
 from config.default_config import SCREEN_HEIGHT, SCREEN_WIDTH, FONT, STORY
 
 game_frame = 0
@@ -30,11 +31,12 @@ def main():
         "Looking around to realize it is a [#c-255,0,0#] [#shake#] dark cave [#reset#]"
     )
     test_section.append(
-        "Looking down at the floor you notice what appears to [#newline#] be a torch and a flashlight."
+        "Staring down at the floor you notice what appears to [#newline#] be a torch and a flashlight."
     )
 
     newFancyText = FancyText(FONT, screen, test_section, objects)
 
+    story_parser(STORY)
     ## Button Testing
     customButton = Button(
         440,
