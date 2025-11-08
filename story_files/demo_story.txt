@@ -1,6 +1,6 @@
 [%S Beginning %]
 You wake up in an area unknown to you.
-Looking around to realize it is a [#c-255,0,0#] [#shake#]dark cave [#reset#]
+Looking around to realize it is a [#c-255,0,0#] [#shake#] dark cave [#reset#]
 Looking down at the floor you notice what appears to be a torch and a flashlight.
 [%C Grab Torch :: Torch %][%C Grab Flashlight :: Flashlight %]
 

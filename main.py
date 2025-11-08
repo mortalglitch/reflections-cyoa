@@ -34,9 +34,13 @@ def main():
         "Staring down at the floor you notice what appears to [#newline#] be a torch and a flashlight."
     )
 
-    newFancyText = FancyText(FONT, screen, test_section, objects)
+    # NOTE Line length greater than 70 should newline
 
-    story_parser(STORY)
+    # newFancyText = FancyText(FONT, screen, test_section, objects)
+
+    story_sections = story_parser(STORY)
+
+    newFancyText = FancyText(FONT, screen, story_sections[0].text_block, objects)
     ## Button Testing
     customButton = Button(
         440,
