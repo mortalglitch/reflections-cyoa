@@ -2,6 +2,8 @@
 
 import pygame
 
+from config.default_config import FONT
+
 
 class Button:
     def __init__(
@@ -41,16 +43,21 @@ class Button:
         self.buttonSurface = pygame.Surface((self.width, self.height))
         self.buttonRect = pygame.Rect((self.x, self.y, self.width, self.height))
 
-        self.buttonSurf = font.render(buttonText, True, (20, 20, 20))
+        # Adjust font for button text when text is too long.
+        if len(buttonText) < 19:
+            self.buttonSurf = font.render(buttonText, True, (20, 20, 20))
+        else:
+            temp_font = pygame.font.Font(FONT, 14)
+            self.buttonSurf = temp_font.render(buttonText, True, (20, 20, 20))
 
-        self.alreadyPressed = False
+        self.alreadyPressed = True
 
         objects.append(self)
 
     def __repr__(self):
         return f"Button Object {self.current_text} with dataChoice {self.dataChoice}"
 
-    def process(self, current_index, objects):
+    def process(self, current_index, objects, events):
         if self.current_index != current_index:
             objects.remove(self)
         else:
@@ -58,20 +65,21 @@ class Button:
             self.buttonSurface.fill(self.fillColors["normal"])
             if self.buttonRect.collidepoint(mousePos):
                 self.buttonSurface.fill(self.fillColors["hover"])
-                for event in pygame.event.get():
+                for event in events:
                     # if pygame.mouse.get_pressed(num_buttons=3)[0]:
                     if event.type == pygame.MOUSEBUTTONDOWN:
-                        self.buttonSurface.fill(self.fillColors["pressed"])
+                        if event.button == 1:
+                            self.buttonSurface.fill(self.fillColors["pressed"])
 
-                        if self.onePress:
-                            self.onclickFunction(self.dataChoice, self.current_text)
+                            if self.onePress and not self.alreadyPressed:
+                                self.onclickFunction(self.dataChoice, self.current_text)
+                                self.alreadyPressed = True
 
-                        elif not self.alreadyPressed:
-                            self.onclickFunction(self.dataChoice, self.current_text)
-                            self.alreadyPressed = True
-
-                    else:
-                        self.alreadyPressed = False
+                    elif event.type == pygame.MOUSEBUTTONUP:
+                        if event.button == 1:
+                            self.alreadyPressed = False
+            if not self.buttonRect.collidepoint(mousePos):
+                self.alreadyPressed = False
 
             self.buttonSurface.blit(
                 self.buttonSurf,

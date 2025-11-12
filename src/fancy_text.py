@@ -51,7 +51,7 @@ class FancyText:
         self.processedText = t
         objects.append(self)
 
-    def process(self, current_index, objects):
+    def process(self, current_index, objects, events):
         # Draw Typewriter
         if self.current_index != current_index:
             objects.remove(self)

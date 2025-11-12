@@ -3,6 +3,8 @@ import random
 import math
 import sys
 
+from pygame.constants import MOUSEBUTTONDOWN
+
 from src.button import Button
 from src.fancy_text import FancyText
 from src.story_parser import story_parser
@@ -43,8 +45,6 @@ def main():
     # NOTE Line length greater than 70 should newline
     # NOTE: max button length 18
 
-    # newFancyText = FancyText(FONT, screen, test_section, objects)
-
     story_sections = story_parser(STORY)
     newFancyText = FancyText(
         FONT,
@@ -62,14 +62,14 @@ def main():
         newFancyText,
     )
     while True:
-        for event in pygame.event.get():
+        events = pygame.event.get()
+        for event in events:
             if event.type == pygame.QUIT:
                 return
         # Draw a black background
         screen.fill("black")
         for object in objects:
-            object.process(current_section, objects)
-
+            object.process(current_section, objects, events)
         # Update the window
         pygame.display.flip()
         game_frame += 1
