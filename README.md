@@ -58,6 +58,8 @@ Font - BigBlueTerminal - https://github.com/ryanoasis/nerd-fonts/tree/master/pat
 
 Text Effects - pmtext - https://github.com/ChillyCider/pmtext/tree/master - WTFPLv2 license
 
+Please note for the text effects library I included it has been updated from it's original to support Python 3. 
+
 ### Known issues
 - There has been a noted issue with some Desktops and Window Managers where a Focus issue triggers odd mouse/button behavior in pygame.
 I believe my current implementation has fixed it but if it come back please file an issue and let me know. 
