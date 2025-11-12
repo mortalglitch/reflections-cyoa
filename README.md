@@ -32,15 +32,19 @@ Right now the file is hard coded under story_files/demo_story.txt
 \[%e Ending Text %] - Signifies an end of a story branch. Endings will generate an end button which closes the application.
 
 \[#c-255,255,255#] # inner text C-#,#,# = color setup RGB
+
 \[#shake#] # inner text Shake = adds the jitter function to included text. AKA makes it wobbly
 -button Remember to remove the shake after the section completes by running a \[#reset#]
+
 \[#newline#] Forced newline 
+
 \[#reset#] remove all block/formatting customizations
 
 
 ---
 ## Screenshots
-PLACEHOLDER
+![Basic Intro](./screenshots/basic.png)
+![Screen Shot 2](./screenshots/screenshot2.png)
 
 
 ---
