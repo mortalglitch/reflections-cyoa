@@ -46,6 +46,9 @@ Right now the file is hard coded under story_files/demo_story.txt
 ![Basic Intro](./screenshots/basic.png)
 ![Screen Shot 2](./screenshots/screenshot2.png)
 
+## Video
+[![CYOA Loop](https://img.youtube.com/vi/kzv9boEzyvc/0.jpg)](https://www.youtube.com/watch?v=kzv9boEzyvc)
+
 
 ---
 ## Third-Party Content
