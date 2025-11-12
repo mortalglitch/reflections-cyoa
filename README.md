@@ -49,8 +49,9 @@ Right now the file is hard coded under story_files/demo_story.txt
 
 ---
 ## Third-Party Content
-Font - BigBlueTerminal - https://github.com/ryanoasis/nerd-fonts/tree/master/patched-fonts/BigBlueTerminal
-Text Effects - pmtext - https://github.com/ChillyCider/pmtext/tree/master
+List of third party code/fonts and their respective licenses. These fall outside of the unlicense used by the base code of this project. If a violation is of note please file a issue here and I will address it as soon as I am able.
+Font - BigBlueTerminal - https://github.com/ryanoasis/nerd-fonts/tree/master/patched-fonts/BigBlueTerminal - Creative Commons
+Text Effects - pmtext - https://github.com/ChillyCider/pmtext/tree/master - WTFPLv2 license
 
 ### Known issues
 - There has been a noted issue with some Desktops and Window Managers where a Focus issue triggers odd mouse/button behavior in pygame.
